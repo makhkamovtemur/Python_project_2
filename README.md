@@ -14,32 +14,32 @@
 * HTML/CSS (для визуализации интерфейса)
 
 ## Структура файлов
-Project_2/
-├── pythonProject2/
-│   ├── game_pack/
-│   │   ├── __init__.py
-│   │   ├── ai.py
-│   │   ├── boards.py
-│   │   ├── figures.py
-│   │   └── params.py
-│   ├── static/
-│   │   ├── sprites/
-│   │   │   ├── blackBishop.png
-│   │   │   ├── blackKing.png
-│   │   │   ├── blackKnight.png
-│   │   │   ├── blackPawn.png
-│   │   │   ├── blackQueen.png
-│   │   │   ├── blackRook.png
-│   │   │   ├── whiteBishop.png
-│   │   │   ├── whiteKing.png
-│   │   │   ├── whiteKnight.png
-│   │   │   ├── whitePawn.png
-│   │   │   ├── whiteQueen.png
-│   │   │   └── whiteRook.png
-│   │   └── style.css
-│   ├── templates/
-│   │   └── index.html
-│   └── app.py
+	Project_2/
+	├── pythonProject2/
+	│   ├── game_pack/
+	│   │   ├── __init__.py
+	│   │   ├── ai.py
+	│   │   ├── boards.py
+	│   │   ├── figures.py
+	│   │   └── params.py
+	│   ├── static/
+	│   │   ├── sprites/
+	│   │   │   ├── blackBishop.png
+	│   │   │   ├── blackKing.png
+	│   │   │   ├── blackKnight.png
+	│   │   │   ├── blackPawn.png
+	│   │   │   ├── blackQueen.png
+	│   │   │   ├── blackRook.png
+	│   │   │   ├── whiteBishop.png
+	│   │   │   ├── whiteKing.png
+	│   │   │   ├── whiteKnight.png
+	│   │   │   ├── whitePawn.png
+	│   │   │   ├── whiteQueen.png
+	│   │   │   └── whiteRook.png
+	│   │   └── style.css
+	│   ├── templates/
+	│   │   └── index.html
+	│   └── app.py
 
 ## Структура проекта
 * `app.py` - основной файл сервера.
@@ -105,14 +105,14 @@ Project_2/
 ## Тесты
 Тесты можно найти в папке tests
 
----------- coverage: platform win32, python 3.12.3-final-0 -----------
-Name                    Stmts   Miss  Cover
--------------------------------------------
-app.py                     97     42    57%
-game_pack\__init__.py       0      0   100%
-game_pack\ai.py            59     44    25%
-game_pack\boards.py       349    146    58%
-game_pack\figures.py      130      0   100%
-game_pack\params.py        23      0   100%
--------------------------------------------
-TOTAL                     658    232    65%
+	--------- coverage: platform win32, python 3.12.3-final-0 -----------
+	Name                    Stmts   Miss  Cover
+	-------------------------------------------
+	app.py                     97     42    57%
+	game_pack\__init__.py       0      0   100%
+	game_pack\ai.py            59     44    25%
+	game_pack\boards.py       349    146    58%
+	game_pack\figures.py      130      0   100%
+	game_pack\params.py        23      0   100%
+	-------------------------------------------
+	TOTAL                     658    232    65%
