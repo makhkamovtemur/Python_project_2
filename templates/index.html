@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PyChess</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+</head>
+<body>
+    <h1>PyChess</h1>
+    <button id="start-white">Start as White</button>
+    <button id="start-black">Start as Black</button>
+    <div id="board"></div>
+    <script>
+        const socket = io();
+        let playerSide;
+        let selectedFigure = null;
+        let avlMoves = [];
+
+        document.getElementById('start-white').addEventListener('click', () => {
+            socket.emit('start_game', { side: 'white' });
+        });
+
+        document.getElementById('start-black').addEventListener('click', () => {
+            socket.emit('start_game', { side: 'black' });
+        });
+
+        socket.on('game_started', data => {
+            playerSide = data.player_side;
+            drawBoard(data.board, data.check_position);
+        });
+
+        socket.on('move_made', data => {
+            drawBoard(data.board, data.check_position);
+            avlMoves = [];
+        });
+
+        socket.on('available_moves', data => {
+            avlMoves = data.moves;
+            highlightMoves(avlMoves);
+        });
+
+        socket.on('game_over', data => {
+            alert(data.msg);
+        });
+
+        function drawBoard(board, checkPosition) {
+            const boardDiv = document.getElementById('board');
+            boardDiv.innerHTML = '';
+            for (let row = 0; row < board.length; row++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.classList.add('row');
+                for (let col = 0; col < board[row].length; col++) {
+                    const cellDiv = document.createElement('div');
+                    cellDiv.classList.add('cell');
+                    cellDiv.dataset.row = row;
+                    cellDiv.dataset.col = col;
+                    cellDiv.addEventListener('click', onCellClick);
+                    if (checkPosition && checkPosition.row === row && checkPosition.col === col) {
+                        cellDiv.classList.add('check');
+                    }
+                    const figure = board[row][col];
+                    if (figure) {
+                        const [side, type] = figure;
+                        const img = document.createElement('img');
+                        img.src = `/static/sprites/${side}${type}.png`;
+                        img.alt = `${side} ${type}`;
+                        img.classList.add('figure');
+                        cellDiv.appendChild(img);
+                    }
+                    rowDiv.appendChild(cellDiv);
+                }
+                boardDiv.appendChild(rowDiv);
+            }
+        }
+
+        function highlightMoves(moves) {
+            for (let move of moves) {
+                const cell = document.querySelector(`.cell[data-row='${move.new_row}'][data-col='${move.new_col}']`);
+                cell.classList.add('highlight');
+            }
+        }
+
+        function clearHighlights() {
+            document.querySelectorAll('.highlight').forEach(cell => {
+                cell.classList.remove('highlight');
+            });
+        }
+
+        function onCellClick(event) {
+            const row = parseInt(event.currentTarget.dataset.row);
+            const col = parseInt(event.currentTarget.dataset.col);
+            if (selectedFigure) {
+                if (avlMoves.some(move => move.new_row === row && move.new_col === col)) {
+                    socket.emit('make_move', { new_row: row, new_col: col });
+                    selectedFigure = null;
+                    clearHighlights();
+                } else {
+                    selectedFigure = { row, col };
+                    socket.emit('get_moves', { row, col });
+                }
+            } else {
+                selectedFigure = { row, col };
+                socket.emit('get_moves', { row, col });
+            }
+        }
+    </script>
+</body>
+</html>
